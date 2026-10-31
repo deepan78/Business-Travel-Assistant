@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Travel Assistant</title>
+
+    <style>
+        :root {
+            --navy: #14243a;
+            --blue: #315efb;
+            --background: #f3f6fb;
+            --border: #e1e7f0;
+            --muted: #63718a;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--background);
+            color: var(--navy);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--navy);
+            color: white;
+            padding: 28px 20px;
+        }
+
+        .header-inner, main {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            color: #b8c8ff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            margin: 6px 0;
+            font-size: clamp(26px, 4vw, 36px);
+        }
+
+        header p {
+            margin: 0;
+            color: #d7dfed;
+        }
+
+        main {
+            padding: 28px 18px 50px;
+        }
+
+        .intro {
+            margin-bottom: 24px;
+        }
+
+        .intro h2 {
+            margin-bottom: 4px;
+        }
+
+        .intro p, .muted {
+            color: var(--muted);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 5px 20px rgba(20, 36, 58, 0.04);
+            min-width: 0;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 4px;
+        }
+
+        .card-description {
+            color: var(--muted);
+            margin-top: 0;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin: 14px 0 6px;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font: inherit;
+            background: white;
+            color: var(--navy);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: 2px solid #c7d2fe;
+            border-color: var(--blue);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            border: 0;
+            border-radius: 9px;
+            background: var(--blue);
+            color: white;
+            padding: 13px;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #2449d8;
+        }
+
+        .result {
+            margin-top: 24px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            overflow-wrap: anywhere;
+        }
+
+        .result h2 {
+            margin-top: 0;
+        }
+
+        .answer-text {
+            white-space: pre-wrap;
+        }
+
+        .source-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .source-list li {
+            background: #edf2ff;
+            color: #2948a5;
+            border-radius: 7px;
+            padding: 5px 10px;
+            font-size: 13px;
+        }
+
+        details {
+            margin-top: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 12px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .document-content {
+            white-space: pre-wrap;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .error {
+            background: #fff0f0;
+            border: 1px solid #f2b8b8;
+            color: #922727;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 20px;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .metric {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #f8faff;
+        }
+
+        .metric span {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .metric strong {
+            font-size: 21px;
+            overflow-wrap: anywhere;
+        }
+
+        .notice {
+            border-left: 4px solid var(--blue);
+            padding: 10px 14px;
+            background: #f0f4ff;
+            color: #354766;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="header-inner">
+        <div class="eyebrow">AI-powered policy assistant</div>
+        <h1>Business Travel Assistant</h1>
+        <p>Ask travel policy questions and estimate hotel reimbursement.</p>
+    </div>
+</header>
+
+<main>
+    <section class="intro">
+        <h2>How can we help?</h2>
+        <p>
+            Get answers grounded in company policy documents or calculate
+            an estimated hotel reimbursement using the defined policy caps.
+        </p>
+    </section>
+
+    {% if error %}
+        <div class="error" role="alert">
+            <strong>Request error:</strong> {{ error }}
+        </div>
+    {% endif %}
+
+    <div class="grid">
+        <section class="card">
+            <h3>01 · Ask a policy question</h3>
+            <p class="card-description">
+                Search the provided travel policy, hotel limits and claim procedure.
+            </p>
+
+            <form method="POST">
+                <input type="hidden" name="action" value="ask_question">
+
+                <label for="question">Your question</label>
+                <textarea
+                    id="question"
+                    name="question"
+                    placeholder="Example: When should I submit my expense claim?"
+                    required
+                >{{ request.form.get('question', '') if request.method == 'POST' and request.form.get('action') == 'ask_question' else '' }}</textarea>
+
+                <button type="submit">Ask Assistant</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h3>02 · Hotel reimbursement estimator</h3>
+            <p class="card-description">
+                Estimate the eligible amount using the nightly hotel cap.
+            </p>
+
+            <form method="POST">
+                <input
+                    type="hidden"
+                    name="action"
+                    value="estimate_reimbursement"
+                >
+
+                <label for="grade">Employee grade</label>
+                <select id="grade" name="grade" required>
+                    <option value="">Select grade</option>
+                    {% for option in ['A', 'B', 'C'] %}
+                    <option
+                        value="{{ option }}"
+                        {% if request.form.get('grade') == option %}selected{% endif %}
+                    >Grade {{ option }}</option>
+                    {% endfor %}
+                </select>
+
+                <label for="city_category">City category</label>
+                <select id="city_category" name="city_category" required>
+                    <option value="">Select category</option>
+                    <option value="metro"
+                        {% if request.form.get('city_category') == 'metro' %}selected{% endif %}
+                    >Metro</option>
+                    <option value="other"
+                        {% if request.form.get('city_category') == 'other' %}selected{% endif %}
+                    >Other</option>
+                </select>
+
+                <label for="nights">Number of nights</label>
+                <input
+                    id="nights"
+                    type="number"
+                    name="nights"
+                    min="1"
+                    step="1"
+                    value="{{ request.form.get('nights', '') if request.method == 'POST' and request.form.get('action') == 'estimate_reimbursement' else '' }}"
+                    required
+                >
+
+                <label for="nightly_charge">Actual nightly charge (INR)</label>
+                <input
+                    id="nightly_charge"
+                    type="number"
+                    name="nightly_charge"
+                    min="0"
+                    step="0.01"
+                    value="{{ request.form.get('nightly_charge', '') if request.method == 'POST' and request.form.get('action') == 'estimate_reimbursement' else '' }}"
+                    required
+                >
+
+                <button type="submit">Estimate Reimbursement</button>
+            </form>
+        </section>
+    </div>
+
+    {% if answer %}
+    <section class="result">
+        <h2>
+            {% if active_section == 'tool' %}
+                Reimbursement estimate
+            {% else %}
+                Assistant response
+            {% endif %}
+        </h2>
+
+        <p class="answer-text">{{ answer }}</p>
+
+        {% if sources %}
+            <h3>Retrieved document sources</h3>
+            <ul class="source-list">
+                {% for source in sources %}
+                    <li>{{ source }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% if documents %}
+            <h3>Retrieved documents</h3>
+            {% for document in documents %}
+                <details>
+                    <summary>{{ document.source }}</summary>
+                    <p class="document-content">{{ document.content }}</p>
+                </details>
+            {% endfor %}
+        {% endif %}
+
+        {% if tool_result %}
+            <div class="metrics">
+                <div class="metric">
+                    <span>Nightly reimbursement cap</span>
+                    <strong>₹{{ "%.2f"|format(tool_result.nightly_cap) }}</strong>
+                </div>
+                <div class="metric">
+                    <span>Actual total</span>
+                    <strong>₹{{ "%.2f"|format(tool_result.actual_total) }}</strong>
+                </div>
+                <div class="metric">
+                    <span>Eligible estimate</span>
+                    <strong>₹{{ "%.2f"|format(tool_result.eligible_estimate) }}</strong>
+                </div>
+                <div class="metric">
+                    <span>Excess amount</span>
+                    <strong>₹{{ "%.2f"|format(tool_result.excess_amount) }}</strong>
+                </div>
+            </div>
+            <p class="muted">
+                This is an estimate, not a guarantee of final payment.
+                Final payment depends on approval and document verification.
+            </p>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <div class="notice">
+        <strong>Important:</strong> This assistant provides policy information
+        and estimates only. It does not book travel, approve expenses, or
+        determine final payment.
+    </div>
+</main>
+
+<footer>
+    Business Travel Assistant · Flask · LangGraph · ChromaDB · Ollama
+</footer>
+</body>
+</html>

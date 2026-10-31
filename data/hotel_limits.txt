@@ -1,0 +1,23 @@
+Hotel Reimbursement Limits
+
+The nightly hotel reimbursement cap depends on employee grade and city category.
+
+Grade A:
+- Metro: INR 4000 per night
+- Other: INR 3000 per night
+
+Grade B:
+- Metro: INR 3000 per night
+- Other: INR 2200 per night
+
+Grade C:
+- Metro: INR 2000 per night
+- Other: INR 1500 per night
+
+These caps include taxes.
+
+For this exercise, the same nightly charge applies to every night of the stay.
+
+The estimated hotel reimbursement is the lower of the actual nightly charge and the applicable nightly cap, multiplied by the number of nights.
+
+Final payment depends on approval and document verification.

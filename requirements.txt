@@ -1,0 +1,9 @@
+
+Flask
+langchain
+langchain-core
+langchain-chroma
+langchain-text-splitters
+langchain-ollama
+langgraph
+python-dotenv
